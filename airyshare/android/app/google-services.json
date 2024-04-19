@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "61594424341",
+    "project_id": "mobile-application-proje-6ad9f",
+    "storage_bucket": "mobile-application-proje-6ad9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61594424341:android:501cc0cc13640dbd81ea1c",
+        "android_client_info": {
+          "package_name": "com.example.airyshare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArh-piE4aIw1SY1JX_-cHOu5wqEPJUdXE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

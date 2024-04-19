@@ -1,5 +1,11 @@
 plugins {
     id "com.android.application"
+<<<<<<< Updated upstream
+=======
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
+>>>>>>> Stashed changes
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -45,10 +51,20 @@ android {
         applicationId "com.example.airyshare"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+<<<<<<< Updated upstream
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+=======
+        // minSdkVersion flutter.minSdkVersion
+        minSdkVersion 19
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        multiDexEnabled true
+>>>>>>> Stashed changes
     }
 
     buildTypes {
