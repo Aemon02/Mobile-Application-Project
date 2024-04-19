@@ -1,13 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:airyshare/functions/01_AppBar_02.dart';
+import 'package:airyshare/functions/01_BasicClass_02.dart';
+import 'package:airyshare/functions/03_Users_02.dart';
 import 'package:airyshare/pages/02_CreateAccount_01.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/src/material/dropdown.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:airyshare/firebase_options.dart';
 
 class AddBankPage extends StatefulWidget {
-  const AddBankPage({super.key});
+  final String accountName;
+
+  const AddBankPage({Key? key, required this.accountName}) : super(key: key);
 
   @override
   State<AddBankPage> createState() => _AddBankPageState();
@@ -36,7 +42,7 @@ class _AddBankPageState extends State<AddBankPage> {
   String? _bankName;
 
   final String topicAccountName = 'ชื่อบัญชี';
-  final String topicAccountNumber = 'ชื่อบัญชี';
+  final String topicAccountNumber = 'เลขบัญชี';
 
   @override
   void dispose() {
@@ -57,7 +63,12 @@ class _AddBankPageState extends State<AddBankPage> {
           chooseBank(),
           inputBankAccount(topicAccountNumber, bankAccountNumberController),
           buttonOK(context),
-          Container(child: Image.asset('assets/images/cash.png', height: 300,),)
+          Container(
+            child: Image.asset(
+              'assets/images/cash.png',
+              height: 300,
+            ),
+          )
         ],
       ),
     );
@@ -65,34 +76,37 @@ class _AddBankPageState extends State<AddBankPage> {
 
   Padding buttonOK(BuildContext context) {
     return Padding(
-          padding: const EdgeInsets.all(20),
-          child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  String _bankAccountName = bankAccountNameController.text;
-                  String _bankAccountNumber = bankAccountNumberController.text;
-                  print('Account Name   : $_bankAccountName');
-                  print('Bank Name      : $_bankName');
-                  print('Account Number : $_bankAccountNumber');
-                });
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreateAnAccountPage()));
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff7D4788)),
-              child: SizedBox(
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      "ตกลง",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  )
-              )
-          ),
-        );
+      padding: const EdgeInsets.all(20),
+      child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              String _bankAccountName = bankAccountNameController.text;
+              String _bankAccountNumber = bankAccountNumberController.text;
+              print('Account Name   : $_bankAccountName');
+              print('Bank Name      : $_bankName');
+              print('Account Number : $_bankAccountNumber');
+
+
+              updateBankInfo(
+                accountname: widget.accountName,
+                bank: _bankName,
+                bankaccountname: _bankAccountName,
+                bankaccountnumber: _bankAccountNumber,
+              );
+            });
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateAnAccountPage()));
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: Color(0xff7D4788)),
+          child: SizedBox(
+              height: 50,
+              child: Center(
+                child: Text(
+                  "ตกลง",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ))),
+    );
   }
 
   Padding chooseBank() {

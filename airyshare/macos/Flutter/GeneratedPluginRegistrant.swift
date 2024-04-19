@@ -5,10 +5,6 @@
 import FlutterMacOS
 import Foundation
 
-<<<<<<< Updated upstream
-
-func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-=======
 import cloud_firestore
 import file_selector_macos
 import firebase_auth
@@ -23,5 +19,4 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
   FLTFirebaseMessagingPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseMessagingPlugin"))
   FLTFirebaseStoragePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseStoragePlugin"))
->>>>>>> Stashed changes
 }

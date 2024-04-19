@@ -73,6 +73,12 @@ flutter:
     - assets/images/friendship-day.png
     - assets/images/cash.png
     - assets/images/deal.png
+    - assets/images/01.png
+    - assets/images/wendy.png
+    - assets/images/02.png
+    - assets/images/03.png
+    - assets/images/profile.webp
+    - assets/images/h10.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

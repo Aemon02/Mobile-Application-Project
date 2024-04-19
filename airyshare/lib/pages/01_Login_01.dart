@@ -2,6 +2,7 @@
 import 'package:airyshare/functions/02_notification_02.dart';
 import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/02_CreateAccount_01.dart';
+import 'package:airyshare/pages/03_PersonalAccount_01.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => AddBankPage(),
+              builder: (context) => PersonalAccountPage(),
             ),
           );
         } else {
@@ -90,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset('assets/images/world.png'),
+                Image.asset('assets/images/world.png',height: 350,),
                 Container(
                   child: Center(
                     child: Text(
@@ -149,9 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Center(
                 //     child: Text('Or Log in with',
                 //         style: TextStyle(color: Colors.white, fontSize: 20))),
-                SizedBox(
-                  height: 10,
-                ),
+             
                 // SocialMedia(context),
                 Column(
                   children: [

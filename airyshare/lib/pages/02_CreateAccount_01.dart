@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:airyshare/functions/01_AppBar_02.dart';
+
+import 'package:airyshare/functions/03_Users_02.dart';
+import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/01_Login_01.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:airyshare/firebase_options.dart';
 
 class CreateAnAccountPage extends StatefulWidget {
+
+
   const CreateAnAccountPage({super.key});
 
   @override
@@ -31,6 +35,21 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
   final String _email = '';
   final String _password = '';
   final String _phone = '';
+
+  bool isAllFieldsFilled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    firstNameController.addListener(updateButtonVisibility);
+    lastNameController.addListener(updateButtonVisibility);
+    accountNameController.addListener(updateButtonVisibility);
+    emailController.addListener(updateButtonVisibility);
+    passwordController.addListener(updateButtonVisibility);
+    phoneController.addListener(updateButtonVisibility);
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +102,81 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
             InputTextField('เบอร์โทร', phoneController),
 
             sidebox(),
-            Container(
-              height: 50,
-              child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
+            buttonCreateAccount(context),
+            // Container(
+            //   height: 50,
+            //   child: ElevatedButton(
+            //       onPressed: () {
+            //         setState(() {
+            //           String firstName = firstNameController.text;
+            //           String lastName = lastNameController.text;
+            //           String accountName = accountNameController.text;
+            //           String email = emailController.text;
+            //           String password = passwordController.text;
+            //           String phone = phoneController.text;
+
+            //           print('First Name   : $firstName');
+            //           print('Last Name    : $lastName');
+            //           print('Account Name : $accountName');
+            //           print('Email        : $email');
+            //           print('Password     : $password');
+            //           print('Phone        : $phone');
+
+            //           createUser(
+            //               firstname: firstName,
+            //               lastname: lastName,
+            //               accountname: accountName,
+            //               email: email,
+            //               password: password,
+            //               phone: phone);
+            //         });
+            //         Navigator.push(context,
+            //             MaterialPageRoute(builder: (context) => LoginPage()));
+            //       },
+            //       style: ElevatedButton.styleFrom(
+            //           backgroundColor: Color(0xff7D4788)),
+            //       child: SizedBox(
+            //           height: 50,
+            //           child: Center(
+            //             child: Text(
+            //               "Create an Account",
+            //               style: TextStyle(color: Colors.white, fontSize: 20),
+            //             ),
+            //           ))),
+            // ),
+            Center(
+                child: Text(
+                    '.........................................................',
+                    style:
+                        TextStyle(color: Color(0xff000000), fontSize: 16))),
+            sidebox(),
+            
+            buttonNextPage(context),
+        
+          ],
+        ),
+      ),
+    );
+  }
+
+  void updateButtonVisibility() {
+    setState(() {
+      isAllFieldsFilled = firstNameController.text.isNotEmpty &&
+          lastNameController.text.isNotEmpty &&
+          accountNameController.text.isNotEmpty &&
+          emailController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          phoneController.text.isNotEmpty;
+    });
+  }
+
+  Widget buttonCreateAccount(BuildContext context) {
+    return isAllFieldsFilled
+        ? Container(
+            height: 50,
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
                       String firstName = firstNameController.text;
                       String lastName = lastNameController.text;
                       String accountName = accountNameController.text;
@@ -110,33 +199,26 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
                           password: password,
                           phone: phone);
                     });
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff7D4788)),
-                  child: SizedBox(
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          "Create an Account",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ))),
+                  Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddBankPage(accountName: accountNameController.text)));
+                    
+              },
+              
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xff7D4788),
+              ),
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    "Create an Account",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
             ),
-            Center(
-                child: Text(
-                    '.........................................................',
-                    style:
-                        TextStyle(color: Color(0xff000000), fontSize: 16))),
-            sidebox(),
-            
-            buttonNextPage(context),
-        
-          ],
-        ),
-      ),
-    );
+          )
+        : SizedBox(); 
   }
 
   Container buttonNextPage(BuildContext context) {
@@ -198,29 +280,3 @@ class _CreateAnAccountPageState extends State<CreateAnAccountPage> {
   }
 }
 
-void createUser(
-    { String? 
-      firstname,
-      lastname,
-      accountname,
-      email,
-      password,
-      phone,
-      bank,
-      bankaccountname,
-      bankaccountnumber,
-    }) {
-  final docUser = FirebaseFirestore.instance.collection('Users').doc('$accountname');
-  final json = {
-    'FirstName': firstname,
-    'LastName': lastname,
-    'AccountName': accountname,
-    'Email': email,
-    'Password': password,
-    'Phone': phone,
-    'Bank': bank,
-    'BankAccountName': bankaccountname,
-    'BankAccountNumber': bankaccountnumber,
-  };
-  docUser.set(json);
-}
