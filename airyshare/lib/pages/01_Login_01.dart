@@ -40,10 +40,15 @@ class _LoginPageState extends State<LoginPage> {
         String passwordFromDatabase = userSnapshot.data()!['Password'];
 
         if (passwordController.text == passwordFromDatabase) {
+          String imagepath = userSnapshot.data()!['ImagePath'];
+          print('imagepath*-*-*-*-*-*-*-*-* :$imagepath');
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => PersonalAccountPage(),
+              builder: (context) => PersonalAccountPage(
+                accountName: nameController.text,
+                profileImage: imagepath,
+              ),
             ),
           );
         } else {
@@ -91,7 +96,10 @@ class _LoginPageState extends State<LoginPage> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Image.asset('assets/images/world.png',height: 350,),
+                Image.asset(
+                  'assets/images/world.png',
+                  height: 350,
+                ),
                 Container(
                   child: Center(
                     child: Text(
@@ -150,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Center(
                 //     child: Text('Or Log in with',
                 //         style: TextStyle(color: Colors.white, fontSize: 20))),
-             
+
                 // SocialMedia(context),
                 Column(
                   children: [

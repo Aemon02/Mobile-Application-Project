@@ -12,6 +12,7 @@ void createUser(
       bank,
       bankaccountname,
       bankaccountnumber,
+      imagepath = 'assets/images/profile.jpg'
     }) {
   final docUser = FirebaseFirestore.instance.collection('Users').doc('$accountname');
   final json = {
@@ -24,6 +25,7 @@ void createUser(
     'Bank': bank,
     'BankAccountName': bankaccountname,
     'BankAccountNumber': bankaccountnumber,
+    'ImagePath': imagepath,
   };
   docUser.set(json);
 }
@@ -56,10 +58,8 @@ Future<void> updateBankInfo({
       print('Bank information updated successfully');
     } else {
       print('User not found');
-      // Handle user not found
     }
   } catch (e) {
     print('Error updating bank information: $e');
-    // Handle error updating bank information
   }
 }
