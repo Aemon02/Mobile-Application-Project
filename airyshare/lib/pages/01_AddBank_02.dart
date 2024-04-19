@@ -27,6 +27,7 @@ class _AddBankPageState extends State<AddBankPage> {
     'TTB',
     'GSB',
     'BAY',
+    'BAAC',
   ];
   String? selectedValue;
 
@@ -56,12 +57,7 @@ class _AddBankPageState extends State<AddBankPage> {
           chooseBank(),
           inputBankAccount(topicAccountNumber, bankAccountNumberController),
           buttonOK(context),
-          Container(
-            child: Image.asset(
-              'assets/images/cash.png',
-              height: 300,
-            ),
-          )
+          Container(child: Image.asset('assets/images/cash.png', height: 300,),)
         ],
       ),
     );
@@ -69,29 +65,34 @@ class _AddBankPageState extends State<AddBankPage> {
 
   Padding buttonOK(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: ElevatedButton(
-          onPressed: () {
-            setState(() {
-              String _bankAccountName = bankAccountNameController.text;
-              String _bankAccountNumber = bankAccountNumberController.text;
-              print('Account Name   : $_bankAccountName');
-              print('Bank Name      : $_bankName');
-              print('Account Number : $_bankAccountNumber');
-            });
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateAnAccountPage()));
-          },
-          style: ElevatedButton.styleFrom(backgroundColor: Color(0xff7D4788)),
-          child: SizedBox(
-              height: 50,
-              child: Center(
-                child: Text(
-                  "ตกลง",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ))),
-    );
+          padding: const EdgeInsets.all(20),
+          child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  String _bankAccountName = bankAccountNameController.text;
+                  String _bankAccountNumber = bankAccountNumberController.text;
+                  print('Account Name   : $_bankAccountName');
+                  print('Bank Name      : $_bankName');
+                  print('Account Number : $_bankAccountNumber');
+                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CreateAnAccountPage()));
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff7D4788)),
+              child: SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      "ตกลง",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+              )
+          ),
+        );
   }
 
   Padding chooseBank() {
