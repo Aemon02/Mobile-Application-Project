@@ -3,7 +3,9 @@ import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/01_Login_01.dart';
 import 'package:airyshare/pages/02_CreateAccount_01.dart';
 import 'package:airyshare/pages/02_CreateGroup_02.dart';
+import 'package:airyshare/pages/03_GroupAccount_02.dart';
 import 'package:airyshare/pages/03_PersonalAccount_01.dart';
+import 'package:airyshare/pages/04_AddPaymentList_02.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: LoginPage(),
+      home: AddPaymentListPage(),
     );
   }
 }

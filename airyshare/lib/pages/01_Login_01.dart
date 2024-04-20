@@ -52,14 +52,20 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Invalid password")));
           print('Invalid password');
           // await notificationService.showNotification('Login Failed', 'Invalid password');
         }
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("User not found")));
         print('User not found');
         // await notificationService.showNotification('Login Failed', 'User not found');
       }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Error during login")));
       print('Error during login: $e');
       // await notificationService.showNotification('Login Error', 'Error during login: $e');
     }
@@ -233,6 +239,7 @@ class _LoginPageState extends State<LoginPage> {
         TextFormField(
           style: TextStyle(fontFamily: 'Inter'),
           controller: passwordController,
+          // keyboardType: TextInputType.number,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,

@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, use_super_parameters
 
 import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/01_Login_01.dart';
+import 'package:airyshare/pages/02_CreateGroup_02.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,10 +11,9 @@ class PersonalAccountPage extends StatefulWidget {
   final String accountName;
   final String profileImage;
 
-  const PersonalAccountPage({Key? key, 
-    required this.accountName,
-    required this.profileImage}
-    ) : super(key: key);
+  const PersonalAccountPage(
+      {Key? key, required this.accountName, required this.profileImage})
+      : super(key: key);
 
   @override
   State<PersonalAccountPage> createState() => _PersonalAccountPageState();
@@ -26,143 +26,140 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
       backgroundColor: const Color(0xffCDB4DB),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: [
-          myProfile(context),
-          paymentList(context)
-        ],
+        children: [myProfile(context), paymentList(context)],
       ),
     );
   }
 
   Container myProfile(BuildContext context) {
     return Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 28.0),
-            child: Column(
-              children: [
-                ProfileAccount(widget.accountName , widget.profileImage, context),
-                // ProfileAccount('assets/images/profile.webp', context),
-                myGroup(context)
-              ],
-            ),
-          ),
-        );
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 2,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 28.0),
+        child: Column(
+          children: [
+            ProfileAccount(widget.accountName, widget.profileImage, context),
+            // ProfileAccount('assets/images/profile.webp', context),
+            myGroup(context)
+          ],
+        ),
+      ),
+    );
   }
 
   Container paymentList(BuildContext context) {
     return Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height / 2,
-          padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(32.0),
-              topRight: Radius.circular(32.0),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 2,
+      padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 32.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(32.0),
+          topRight: Radius.circular(32.0),
+        ),
+        color: Color(0xffF7F4F5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Payment",
+            style: TextStyle(
+                color: Color(0xff62226D),
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height / 2.4,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  // itemPayment(),
+                  // SizedBox(
+                  //   height: 10.0,
+                  // ),
+                  // itemPayment(),
+                  // SizedBox(
+                  //   height: 10.0,
+                  // ),
+                  // itemPayment(),
+                ],
+              ),
             ),
-            color: Color(0xffF7F4F5),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Payment",
-                style: TextStyle(
-                    color: Color(0xff62226D),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 2.4,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      // itemPayment(),
-                      // SizedBox(
-                      //   height: 10.0,
-                      // ),
-                      // itemPayment(),
-                      // SizedBox(
-                      //   height: 10.0,
-                      // ),
-                      // itemPayment(),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
+          )
+        ],
+      ),
+    );
   }
 
   Column myGroup(BuildContext context) {
     return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "My Group",
-                      style: TextStyle(
-                          color: Color(0xff62226D),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22.0),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      // color: Colors.amber,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            IconButton(
-                                style: IconButton.styleFrom(
-                                    padding: EdgeInsets.only(
-                                        left: 4.0, bottom: 20.0)),
-                                onPressed: () {},
-                                icon: Container(
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Color.fromARGB(255, 152, 99, 168),
-                                  ),
-                                  padding: EdgeInsets.all(16),
-                                  child: Icon(
-                                    Icons.group_add,
-                                    color: Colors.white,
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 16.0,
-                            ),
-                            itemGroup('assets/images/wendy.png',
-                                'เที่ยวภูเก็ต', context),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            itemGroup('assets/images/h10.jpg', 'นัดกินข้าว',
-                                context),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            itemGroup('assets/images/03.png', 'ไปดูคอน BP',
-                                context),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                          ],
-                        ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "My Group",
+          style: TextStyle(
+              color: Color(0xff62226D),
+              fontWeight: FontWeight.bold,
+              fontSize: 22.0),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          // color: Colors.amber,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                IconButton(
+                    style: IconButton.styleFrom(
+                        padding: EdgeInsets.only(left: 4.0, bottom: 20.0)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateGroupPage()));
+                    },
+                    icon: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Color.fromARGB(255, 152, 99, 168),
                       ),
-                    )
-                  ],
-                );
+                      padding: EdgeInsets.all(16),
+                      child: Icon(
+                        Icons.group_add,
+                        color: Colors.white,
+                      ),
+                    )),
+                SizedBox(
+                  width: 16.0,
+                ),
+                itemGroup('assets/images/wendy.png', 'เที่ยวภูเก็ต', context),
+                SizedBox(
+                  width: 10.0,
+                ),
+                itemGroup('assets/images/h10.jpg', 'นัดกินข้าว', context),
+                SizedBox(
+                  width: 10.0,
+                ),
+                itemGroup('assets/images/03.png', 'ไปดูคอน BP', context),
+                SizedBox(
+                  width: 10.0,
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Row ProfileAccount(accountName, pathImage, BuildContext context) {
@@ -219,36 +216,36 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
 
   Container munuContro(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(
-          top: 25,
-        ),
-        width: MediaQuery.of(context).size.width * 0.2,
-        child: Column(
-          children: [
-            IconButton(
-              style: IconButton.styleFrom(padding: EdgeInsets.all(0)),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
-              },
-              icon: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 152, 99, 168),
-                  ),
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  )),
-            ),
-            buttonMenu(Icons.attach_money, LoginPage()),
-            buttonMenu(Icons.auto_graph_sharp, LoginPage()),
-            buttonMenu(Icons.account_balance_wallet_rounded, LoginPage()),
-          ],
-        ),
-        // color: Colors.white,
-      );
+      padding: EdgeInsets.only(
+        top: 25,
+      ),
+      width: MediaQuery.of(context).size.width * 0.2,
+      child: Column(
+        children: [
+          IconButton(
+            style: IconButton.styleFrom(padding: EdgeInsets.all(0)),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+            icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color.fromARGB(255, 152, 99, 168),
+                ),
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                )),
+          ),
+          buttonMenu(Icons.attach_money, LoginPage()),
+          buttonMenu(Icons.auto_graph_sharp, LoginPage()),
+          buttonMenu(Icons.account_balance_wallet_rounded, LoginPage()),
+        ],
+      ),
+      // color: Colors.white,
+    );
   }
 
   IconButton buttonMenu(icon, Widget page) {

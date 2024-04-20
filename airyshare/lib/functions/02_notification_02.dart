@@ -1,39 +1,133 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// class NotificationService {
-//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
+class ImageManagementPage extends StatefulWidget {
+  @override
+  _ImageManagementPageState createState() => _ImageManagementPageState();
+}
 
-//   NotificationService() {
-//     initNotifications();
-//   }
+class _ImageManagementPageState extends State<ImageManagementPage> {
+  late XFile _imageFile;
+  late String _imageUrl;
 
-//   Future<void> initNotifications() async {
-//     const AndroidInitializationSettings initializationSettingsAndroid =
-//         AndroidInitializationSettings('app_icon');
-//     final InitializationSettings initializationSettings =
-//         InitializationSettings(android: initializationSettingsAndroid);
-//     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-//   }
+  _ImageManagementPageState()
+      : _imageFile = XFile(''),
+        _imageUrl = '';
 
-//   Future<void> showNotification(String title, String body) async {
-//     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//         AndroidNotificationDetails(
-//       'your_channel_id', // Replace with your channel ID
-//       'Your channel name', // Replace with your channel name
-//       'Your channel description', // Replace with your channel description
-//       importance: Importance.max,
-//       priority: Priority.high,
-//     );
-//     const NotificationDetails platformChannelSpecifics =
-//         NotificationDetails(android: androidPlatformChannelSpecifics);
-//     await flutterLocalNotificationsPlugin.show(
-//       0,
-//       title,
-//       body,
-//       platformChannelSpecifics,
-//       payload: 'item x',
-//     );
-//   }
+  // เลือกรูปภาพจาก Gallery
+  Future<void> _uploadImageToFirebaseStorage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage == null) {
+      print('No image selected');
+      return;
+    }
+
+    setState(() {
+      _imageFile = pickedImage;
+    });
+    print("Image File : $_imageFile");
+
+    // Attempt upload with retry mechanism
+    int maxRetries = 3;
+    int retryCount = 0;
+    bool uploadSuccess = false;
+
+    while (!uploadSuccess && retryCount < maxRetries) {
+      try {
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference ref =
+            storage.ref().child('images/${DateTime.now().toString()}');
+
+        // Upload the file
+        UploadTask uploadTask = ref.putFile(File(_imageFile.path));
+        TaskSnapshot taskSnapshot = await uploadTask;
+        String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+        setState(() {
+          _imageUrl = downloadURL;
+        });
+
+        uploadSuccess = true;
+        print('Image uploaded successfully!');
+      } catch (e) {
+        print('Error uploading image: $e');
+        retryCount++;
+        print('Retrying upload...');
+        await Future.delayed(
+            Duration(seconds: 2)); // Wait for 2 seconds before retrying
+      }
+    }
+
+    if (!uploadSuccess) {
+      print('Upload failed after $maxRetries attempts');
+    }
+  }
+
+  // เพิ่ม URL ของรูปภาพใน Firestore
+  void _addImageUrlToFirestore() {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      firestore.collection('images').add({
+        'imageUrl': _imageUrl,
+        // ข้อมูลเพิ่มเติมที่ต้องการเก็บไว้ใน Firestore
+      });
+    } catch (e) {
+      print('เกิดข้อผิดพลาดในการเพิ่ม URL ใน Firestore: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('จัดการรูปภาพ'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _imageFile == null
+                ? Text('ไม่มีรูปภาพที่ถูกเลือก')
+                : Image.file(File(_imageFile.path)),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('เลือกรูปภาพ'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (_imageFile != null) {
+                  _uploadImageToFirebaseStorage();
+                }
+              },
+              child: Text('อัปโหลดรูปภาพ'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (_imageUrl != null) {
+                  _addImageUrlToFirestore();
+                }
+              },
+              child: Text('เพิ่ม URL ใน Firestore'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MaterialApp(
+//     home: ImageManagementPage(),
+//   ));
 // }

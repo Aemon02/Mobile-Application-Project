@@ -169,6 +169,7 @@ class _AddBankPageState extends State<AddBankPage> {
           TextField(
             // controller: bankAccountNameController,
             controller: textController,
+            // keyboardType: TextInputType.number,
             decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
