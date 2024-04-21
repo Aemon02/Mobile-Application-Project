@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:airyshare/functions/02_notification_02.dart';
+import 'package:airyshare/functions/02_Photo_02.dart';
 import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/02_CreateAccount_01.dart';
 import 'package:airyshare/pages/03_PersonalAccount_01.dart';

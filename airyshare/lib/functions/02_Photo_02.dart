@@ -68,13 +68,12 @@ class _ImageManagementPageState extends State<ImageManagementPage> {
     }
   }
 
-  // เพิ่ม URL ของรูปภาพใน Firestore
   void _addImageUrlToFirestore() {
     try {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       firestore.collection('images').add({
         'imageUrl': _imageUrl,
-        // ข้อมูลเพิ่มเติมที่ต้องการเก็บไว้ใน Firestore
+
       });
     } catch (e) {
       print('เกิดข้อผิดพลาดในการเพิ่ม URL ใน Firestore: $e');
