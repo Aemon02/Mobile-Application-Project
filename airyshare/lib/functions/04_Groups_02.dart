@@ -10,7 +10,7 @@ void createGroup({
   final json = {
     'GroupName': groupname,
     'ImagePath': imagepath,
-    'Member': member
+    'Member': member,
   };
   docUser.set(json);
 }
@@ -23,26 +23,40 @@ class GroupData {
   GroupData({this.groupName, this.imagePath, this.members});
 }
 
-class GroupDataProvider {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+void addNewPaymentItem({
+  required String groupName,
+  required Map<String, dynamic> newItemData,
+}) {
+  final DocumentReference paymentDocRef = FirebaseFirestore.instance
+      .collection('Groups')
+      .doc(groupName)
+      .collection('ItemList')
+      .doc(newItemData['programName']); 
+  paymentDocRef.set({
+    'groupName': groupName,
+    'ItemList': newItemData,
+  }).then((_) {
+    print('เพิ่มรายการใหม่สำเร็จ: ${paymentDocRef.id}');
+  }).catchError((error) {
+    print('เกิดข้อผิดพลาดในการเพิ่มรายการใหม่: $error');
+  });
+}
 
-  Future<GroupData?> getGroupData(String groupName) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _firestore.collection('Groups').doc(groupName).get();
+void updateGroupItem({
+  required String groupName,
+  required Map<String, dynamic> itemList,
+}) {
+  try {
+    final docRef =
+        FirebaseFirestore.instance.collection('Groups').doc(groupName);
 
-      if (snapshot.exists) {
-        return GroupData(
-          groupName: snapshot['GroupName'],
-          imagePath: snapshot['ImagePath'],
-          members: List<String>.from(snapshot['Member']),
-        );
-      } else {
-        return null;
-      }
-    } catch (e) {
-      print('Error fetching group data: $e');
-      return null;
-    }
+    final data = {
+      'GroupName': groupName,
+      'ItemList': itemList,
+    };
+
+    docRef.update(data);
+  } catch (e) {
+    print('Error updating group item: $e');
   }
 }

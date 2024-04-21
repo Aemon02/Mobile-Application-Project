@@ -3,6 +3,9 @@
 import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/01_Login_01.dart';
 import 'package:airyshare/pages/02_CreateGroup_02.dart';
+import 'package:airyshare/pages/04_Payment_01.dart';
+import 'package:airyshare/pages/05_CheckPaymentStatus_01.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,8 +14,10 @@ class PersonalAccountPage extends StatefulWidget {
   final String accountName;
   final String profileImage;
 
+  
+
   const PersonalAccountPage(
-      {Key? key, required this.accountName, required this.profileImage})
+      {Key? key, required this.accountName, required this.profileImage,  })
       : super(key: key);
 
   @override
@@ -26,7 +31,9 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
       backgroundColor: const Color(0xffCDB4DB),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: [myProfile(context), paymentList(context)],
+        children: [
+          myProfile(context), 
+          paymentList(context)],
       ),
     );
   }
@@ -79,19 +86,20 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  // itemPayment(),
-                  // SizedBox(
-                  //   height: 10.0,
-                  // ),
-                  // itemPayment(),
-                  // SizedBox(
-                  //   height: 10.0,
-                  // ),
-                  // itemPayment(),
+                  itemPayment(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  itemPayment(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  itemPayment(),
                 ],
               ),
             ),
-          )
+          ),
+          
         ],
       ),
     );
@@ -125,7 +133,7 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateGroupPage()));
+                              builder: (context) => CreateGroupPage(accountName: widget.accountName, profileImage: widget.profileImage)));
                     },
                     icon: Container(
                       height: 50,
@@ -239,9 +247,9 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                   color: Colors.white,
                 )),
           ),
-          buttonMenu(Icons.attach_money, LoginPage()),
-          buttonMenu(Icons.auto_graph_sharp, LoginPage()),
-          buttonMenu(Icons.account_balance_wallet_rounded, LoginPage()),
+          buttonMenu(Icons.attach_money, CheckPaymentStatusPage()),
+          buttonMenu(Icons.auto_graph_sharp, CheckPaymentStatusPage()),
+          buttonMenu(Icons.account_balance_wallet_rounded, CheckPaymentStatusPage()),
         ],
       ),
       // color: Colors.white,
@@ -323,7 +331,11 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
       padding: EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed("/payment");
+           Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PaymentPage() ),
+                    );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

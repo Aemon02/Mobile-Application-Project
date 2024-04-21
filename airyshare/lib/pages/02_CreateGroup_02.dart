@@ -17,7 +17,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 class CreateGroupPage extends StatefulWidget {
-  const CreateGroupPage({Key? key}) : super(key: key);
+  final String accountName;
+  final String profileImage;
+
+  const CreateGroupPage(
+      {Key? key, required this.accountName, required this.profileImage})
+      : super(key: key);
 
   @override
   State<CreateGroupPage> createState() => _CreateGroupPageState();
@@ -247,11 +252,13 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GroupAccountPage(
-                        groupName: groupNameController.text,
-                        groupImagePath: imageUrl,
-                        members: selectedUserNames,
-                      )),
+                      MaterialPageRoute(
+                          builder: (context) => GroupAccountPage(
+                              groupName: groupNameController.text,
+                              groupImagePath: imageUrl,
+                              members: selectedUserNames,
+                              accountName: widget.accountName,
+                              profileImage: widget.profileImage)),
                     );
                   },
                   style: ElevatedButton.styleFrom(

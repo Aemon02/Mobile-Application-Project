@@ -6,6 +6,8 @@ import 'package:airyshare/pages/02_CreateGroup_02.dart';
 import 'package:airyshare/pages/03_GroupAccount_02.dart';
 import 'package:airyshare/pages/03_PersonalAccount_01.dart';
 import 'package:airyshare/pages/04_AddPaymentList_02.dart';
+import 'package:airyshare/pages/04_Payment_01.dart';
+import 'package:airyshare/pages/05_CheckPaymentStatus_01.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: AddPaymentListPage(),
+      home: 
+      // CheckPaymentStatusPage(),
+      LoginPage(),
+      // AddPaymentListPage(groupName: 'Travel to Phuket'),
     );
   }
 }

@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:airyshare/functions/01_BasicClass_02.dart';
+import 'package:airyshare/functions/04_Groups_02.dart';
+import 'package:airyshare/pages/03_PersonalAccount_01.dart';
+import 'package:airyshare/pages/04_AddPaymentList_02.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +12,16 @@ class GroupAccountPage extends StatefulWidget {
   final String groupImagePath;
   final List<String> members;
 
+  final String accountName;
+  final String profileImage;
+
   GroupAccountPage(
       {Key? key,
       required this.groupName,
       required this.groupImagePath,
-      required this.members})
+      required this.members,
+      this.accountName = '',
+      this.profileImage = ''})
       : super(key: key);
 
   @override
@@ -21,6 +29,9 @@ class GroupAccountPage extends StatefulWidget {
 }
 
 class _GroupAccountPageState extends State<GroupAccountPage> {
+  String? programName;
+  String? totalPrice;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +39,6 @@ class _GroupAccountPageState extends State<GroupAccountPage> {
       backgroundColor: Color(0xffCDB4DB),
       appBar: MyAppBar.build(context),
       body: Column(
-        
         children: [
           MyTitle.build(widget.groupName),
           Padding(
@@ -71,15 +81,42 @@ class _GroupAccountPageState extends State<GroupAccountPage> {
                 padding: EdgeInsets.only(right: 30, top: 12),
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddPaymentListPage(
+                          groupName: widget.groupName,
+                        ),
+                      ),
+                    );
+
+                    if (result != null) {
+                      setState(() {
+                        programName = result['programName'];
+                        totalPrice = result['totalPrice'];
+                      });
+
+                      final Map<String, dynamic> itemlist = {
+                        'programName': programName,
+                        'totalPrice': totalPrice,
+                      };
+
+                      addNewPaymentItem(
+                          groupName: widget.groupName, newItemData: itemlist);
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff7D4788),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.add, color: Colors.white,), // ไอคอน
-                      SizedBox(width: 5), // ระยะห่างระหว่างไอคอนกับข้อความ
+                      Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 5),
                       Text(
                         'เพิ่มรายการ',
                         style: TextStyle(color: Colors.white, fontSize: 15),
@@ -89,6 +126,65 @@ class _GroupAccountPageState extends State<GroupAccountPage> {
                 ),
               ),
             ],
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Groups')
+                  .doc(widget.groupName)
+                  .collection('ItemList')
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                      child: Text('เกิดข้อผิดพลาด: ${snapshot.error}'));
+                }
+                if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                  return ListView(
+                    children: snapshot.data!.docs.map((document) {
+                      final itemList = document['ItemList'];
+                      final programName = itemList['programName'];
+                      final totalPrice = itemList['totalPrice'];
+                      return Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ListTile(
+                          title: Text(programName),
+                          subtitle: Text('ราคารวม: $totalPrice'),
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/h10.jpg'),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                } else {
+                  return Center(child: Text('ไม่พบรายการ'));
+                }
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PersonalAccountPage(
+                    accountName: widget.accountName,
+                    profileImage: widget.profileImage,
+                  ),
+                ),
+              );
+            },
+            child: Text('ok'),
           )
         ],
       ),
