@@ -104,7 +104,7 @@ class _AddPaymentListPageState extends State<AddPaymentListPage> {
           Row(
             children: [
               IconButton(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 onPressed: () {
                   setState(() {
                     TextEditingController newPriceController =

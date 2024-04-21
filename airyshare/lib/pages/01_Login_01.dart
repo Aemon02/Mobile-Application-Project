@@ -27,8 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   final String _name = '';
   final String _password = '';
 
-  // final NotificationService notificationService = NotificationService();
-
   Future<void> _login(BuildContext context) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> userSnapshot =
@@ -52,22 +50,19 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Invalid password")));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Invalid password")));
           print('Invalid password');
-          // await notificationService.showNotification('Login Failed', 'Invalid password');
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("User not found")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("User not found")));
         print('User not found');
-        // await notificationService.showNotification('Login Failed', 'User not found');
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Error during login")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Error during login")));
       print('Error during login: $e');
-      // await notificationService.showNotification('Login Error', 'Error during login: $e');
     }
   }
 

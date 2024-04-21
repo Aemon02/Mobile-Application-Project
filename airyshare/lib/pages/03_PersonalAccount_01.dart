@@ -3,6 +3,7 @@
 import 'package:airyshare/pages/01_AddBank_02.dart';
 import 'package:airyshare/pages/01_Login_01.dart';
 import 'package:airyshare/pages/02_CreateGroup_02.dart';
+import 'package:airyshare/pages/03_GroupAccount_02.dart';
 import 'package:airyshare/pages/04_Payment_01.dart';
 import 'package:airyshare/pages/05_CheckPaymentStatus_01.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,26 +15,36 @@ class PersonalAccountPage extends StatefulWidget {
   final String accountName;
   final String profileImage;
 
-  
+  const PersonalAccountPage({
+    Key? key,
+    required this.accountName,
+    required this.profileImage,
+  }) : super(key: key);
 
-  const PersonalAccountPage(
-      {Key? key, required this.accountName, required this.profileImage,  })
-      : super(key: key);
+  
 
   @override
   State<PersonalAccountPage> createState() => _PersonalAccountPageState();
 }
 
 class _PersonalAccountPageState extends State<PersonalAccountPage> {
+
+  List<String> members = [
+    'aem',
+    'babana',
+    'cry',
+    'mnm',
+    'test1',
+    'test2',
+    'umi'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffCDB4DB),
       resizeToAvoidBottomInset: false,
       body: Column(
-        children: [
-          myProfile(context), 
-          paymentList(context)],
+        children: [myProfile(context), paymentList(context)],
       ),
     );
   }
@@ -99,7 +110,6 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
               ),
             ),
           ),
-          
         ],
       ),
     );
@@ -133,7 +143,9 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateGroupPage(accountName: widget.accountName, profileImage: widget.profileImage)));
+                              builder: (context) => CreateGroupPage(
+                                  accountName: widget.accountName,
+                                  profileImage: widget.profileImage)));
                     },
                     icon: Container(
                       height: 50,
@@ -249,7 +261,8 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
           ),
           buttonMenu(Icons.attach_money, CheckPaymentStatusPage()),
           buttonMenu(Icons.auto_graph_sharp, CheckPaymentStatusPage()),
-          buttonMenu(Icons.account_balance_wallet_rounded, CheckPaymentStatusPage()),
+          buttonMenu(
+              Icons.account_balance_wallet_rounded, CheckPaymentStatusPage()),
         ],
       ),
       // color: Colors.white,
@@ -307,6 +320,20 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
             ),
           ),
         ),
+        // GestureDetector(
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => GroupAccountPage(
+        //           groupName: 'เที่ยวไทย',
+        //           groupImagePath:'assets/images/h10.jpg',
+        //           members: members
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // )
       ],
     );
   }
@@ -331,11 +358,10 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
       padding: EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-           Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentPage() ),
-                    );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PaymentPage()),
+          );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
